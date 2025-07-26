@@ -1,0 +1,7 @@
+{
+  "name": "MyBookStore",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Janith Wickramasinghe <janithwickramasinghe7@gmail.com>",
+  "license": "MIT"
+}
