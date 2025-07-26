@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import User from '../models/user.js';
+import User from '../models/userModel.js';
 import transporter from '../config/emailConfig.js';
 import dotenv from 'dotenv';
 // import { EMAIL_VERIFICATION_TEMPLATE } from '../config/emailTemplates.js';

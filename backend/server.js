@@ -1,8 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './config/connectDB.js';
-import productRoutes from './routes/productRoutes.js';
-import authRoutes from './routes/authRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
@@ -24,8 +23,7 @@ app.use(cookieParser());
 connectDB();
 
 // Routes
-app.use('/api/products', productRoutes);
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', userRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hello From Node API');
