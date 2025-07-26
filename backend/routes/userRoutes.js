@@ -7,7 +7,7 @@ import {
   register, 
   sendVerificationEmail,
   verifyEmail 
-} from '../controllers/authController.js';
+} from '../controllers/userController.js';
 
 const router = express.Router();
 
