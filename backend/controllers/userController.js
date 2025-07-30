@@ -90,6 +90,10 @@ const verifyEmail = async (req, res) => {
     await user.save();
 
     res.status(200).json({ message: 'Email verified! You can now log in.' });
+
+    //navigate to home page
+    navigator.navigate('/home');
+
   } catch (error) {
     res.status(400).json({ message: 'Invalid or expired token' });
   }
@@ -110,15 +114,17 @@ const login = async (req, res) => {
     // Compare password
     const isValid = await bcrypt.compare(password, user.password);
 
-    const hashedPasswordnew = await bcrypt.hash(password, 10);
+    // const hashedPasswordnew = await bcrypt.hash(password, 10);
 
     if (!isValid) {
-      return res.status(400).json({ message: `Password is incorrect ${password} and ${user.password} and ${hashedPasswordnew}` });
+      return res.status(400).json({ message: `Password is incorrect` });
     }
 
     // Generate JWT
     const token = generateToken({ id: user._id, email: user.email });
     res.json({ token });
+    // const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // console.log(`token: ${decoded.id}`)
 
   } catch (error) {
     res.status(500).json({ message: "An error occurred during login" });
@@ -182,11 +188,56 @@ const resetPassword = async (req, res) => {
   }
 };
 
+// Complete Profile
+const completeProfile = async (req, res) => {
+  try {
+    console.log("User from token:", req.user);
+    console.log("Request body:", req.body);
+
+    const user = req.user;
+    const { mobile, street, city, postalCode, province, email } = req.body;
+
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    user.mobile = mobile;
+    user.address = { street, city, postalCode, province };
+
+
+    if(user.isVerified) {
+      return res.status(400).json({ message: 'User already verified' });
+    }else {
+      await user.save();
+    }
+
+
+    // Generate a new token for verification (expires in 1 day)
+    const token = generateToken({ id: user._id, email: user.email }, '1d');
+
+    const verificationLink = `http://localhost:5000/api/auth/verify-email?token=${token}`;
+
+    // Send verification email
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: user.email,
+      subject: 'Verify Your Email',
+      html: `<p>Hi ${user.name}, please <a href="${verificationLink}">click here</a> to verify your email.</p>`
+    });
+
+    res.status(200).json({ message: 'Profile completed and verification email sent' });
+
+  } catch (error) {
+    console.error('Complete Profile Error:', error);
+    res.status(500).json({ message: 'Error completing profile', error: error.message });
+  }
+};
+
+
 export {
   forgotPassword,
   resetPassword,
   login,
   register,
   sendVerificationEmail,
-  verifyEmail
+  verifyEmail,
+  completeProfile
 }
