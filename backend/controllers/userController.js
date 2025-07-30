@@ -191,8 +191,8 @@ const resetPassword = async (req, res) => {
 // Complete Profile
 const completeProfile = async (req, res) => {
   try {
-    console.log("User from token:", req.user);
-    console.log("Request body:", req.body);
+    // console.log("User from token:", req.user);
+    // console.log("Request body:", req.body);
 
     const user = req.user;
     const { mobile, street, city, postalCode, province, email } = req.body;
