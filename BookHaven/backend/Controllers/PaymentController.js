@@ -96,6 +96,90 @@ class PaymentController {
         }
     }
 
+    // Get all payments for user
+    async getPayments(req, res) {
+        try {
+            const userId = req.user._id;
+            const payments = await Payment.find({ user: userId })
+                .populate('order', 'totalAmount status createdAt')
+                .sort({ createdAt: -1 });
+
+            res.json({
+                success: true,
+                data: payments
+            });
+
+        } catch (error) {
+            console.error('Get payments error:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to fetch payments'
+            });
+        }
+    }
+
+    // Get single payment
+    async getPayment(req, res) {
+        try {
+            const { paymentId } = req.params;
+            const userId = req.user._id;
+
+            const payment = await Payment.findOne({ _id: paymentId, user: userId })
+                .populate('order', 'totalAmount status items deliveryAddress createdAt');
+
+            if (!payment) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Payment not found'
+                });
+            }
+
+            res.json({
+                success: true,
+                data: payment
+            });
+
+        } catch (error) {
+            console.error('Get payment error:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to fetch payment'
+            });
+        }
+    }
+
+    // Update payment status
+    async updatePayment(req, res) {
+        try {
+            const { paymentId } = req.params;
+            const { status } = req.body;
+            const userId = req.user._id;
+
+            const payment = await Payment.findOne({ _id: paymentId, user: userId });
+            if (!payment) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Payment not found'
+                });
+            }
+
+            payment.status = status;
+            await payment.save();
+
+            res.json({
+                success: true,
+                message: 'Payment updated successfully',
+                data: payment
+            });
+
+        } catch (error) {
+            console.error('Update payment error:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to update payment'
+            });
+        }
+    }
     }
 
 module.exports = new PaymentController(); 
