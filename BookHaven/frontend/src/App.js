@@ -1,7 +1,7 @@
 
 import './App.css';
 import React from 'react';
-import HomePage from './Pages/HomePage/HomePage'
+// import HomePage from './Pages/HomePage/HomePage'
 import { Routes, Route, Router } from "react-router"
 import Login from './Components/Login/Login';
 import AddBook from './Components/AddBook/AddBook';
@@ -10,6 +10,7 @@ import Register from './Components/Register/Register';
 import OTPVerification from './Components/OTPVerification';
 import BookPage from './Pages/BookPage/BookPage';
 import CartPage from './pages/CartPage/CartPage';
+
 import PaymentPage from './pages/PaymentPage/PaymentPage';
 import PrivateRoute from './Components/PrivateRoutes/PrivateRoutes';
 import OrdersPage from './Pages/OrdersPage/OrdersPage';
@@ -31,7 +32,7 @@ function App() {
         <Route path="/admin-orders" element={<AdminRoute><AdminOrdersDashboard /></AdminRoute>} />a
         <Route path="/register" element={<Register />} />
         <Route path="/verify-otp" element={<OTPVerification />} />
-        <Route path="/home" element={<HomePage />} />
+        {/* <Route path="/home" element={<HomePage />} /> */}
         <Route path="/book/:id" element={<BookPage />} />
         <Route path="/cart" element={
           <PrivateRoute><CartPage /></PrivateRoute>} />
