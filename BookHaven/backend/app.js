@@ -15,7 +15,7 @@ const app = express();
 
 // Middleware
 const allowedOrigins = [
-    'http://localhost:3000',
+    'https://my-book-store-brown.vercel.app',
     process.env.FRONTEND_URL
   ];
   
