@@ -167,8 +167,8 @@ const OrdersPage = () => {
                     key={option.value}
                     onClick={() => setStatusFilter(prev => prev === option.value ? '' : option.value)}
                     className={`flex items-center space-x-2 px-4 py-3 rounded-xl font-gilroyMedium transition-all duration-300 ${isActive
-                        ? 'border-2 bg-primary-100 text-primary-700 border-primary-200'
-                        : 'border-2 border-transparent bg-neutral-50 text-neutral-600 hover:bg-neutral-100'
+                      ? 'border-2 bg-primary-100 text-primary-700 border-primary-200'
+                      : 'border-2 border-transparent bg-neutral-50 text-neutral-600 hover:bg-neutral-100'
                       }`}
                   >
                     <IconComponent className="w-4 h-4" />
@@ -311,9 +311,17 @@ const OrdersPage = () => {
                         {order.items.map((item, idx) => (
                           <div key={idx} className="flex justify-between items-center p-4 rounded-xl bg-neutral-50">
                             <div className="flex items-center space-x-4">
-                              <div className="flex justify-center items-center w-12 h-16 bg-gradient-to-br rounded-lg from-neutral-200 to-neutral-300">
-                                <HiBookOpen className="w-6 h-6 text-neutral-500" />
-                              </div>
+                              {item.book?.bookImage ? (
+                                <img
+                                  src={item.book.bookImage}
+                                  alt={item.book.name}
+                                  className="object-cover w-6 h-6"
+                                />
+                              ) : (
+                                <div className="flex justify-center items-center w-full h-full">
+                                  <HiBookOpen className="w-6 h-6 text-neutral-400" />
+                                </div>
+                              )}
                               <div>
                                 <h5 className="font-gilroyBold text-neutral-900">
                                   {item.book?.name || 'Unknown Book'}
