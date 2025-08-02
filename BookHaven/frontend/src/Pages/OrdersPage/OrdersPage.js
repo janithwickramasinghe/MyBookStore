@@ -311,17 +311,19 @@ const OrdersPage = () => {
                         {order.items.map((item, idx) => (
                           <div key={idx} className="flex justify-between items-center p-4 rounded-xl bg-neutral-50">
                             <div className="flex items-center space-x-4">
-                              {item.book?.bookImage ? (
-                                <img
-                                  src={item.book.bookImage}
-                                  alt={item.book.name}
-                                  className="object-cover w-6 h-6"
-                                />
-                              ) : (
-                                <div className="flex justify-center items-center w-full h-full">
-                                  <HiBookOpen className="w-6 h-6 text-neutral-400" />
-                                </div>
-                              )}
+                              <div className="flex justify-center items-center w-12 h-16 bg-gradient-to-br rounded-lg from-neutral-200 to-neutral-300">
+                                {item.book?.bookImage ? (
+                                  <img
+                                    src={item.book.bookImage}
+                                    alt={item.book.name}
+                                    className="object-cover w-6 h-6"
+                                  />
+                                ) : (
+                                  <div className="flex justify-center items-center w-full h-full">
+                                    <HiBookOpen className="w-6 h-6 text-neutral-400" />
+                                  </div>
+                                )}
+                              </div>
                               <div>
                                 <h5 className="font-gilroyBold text-neutral-900">
                                   {item.book?.name || 'Unknown Book'}
