@@ -208,9 +208,17 @@ const PaymentPage = () => {
                   {cartItems.map(item => (
                     <div key={item.book?._id || item.book} className="flex justify-between items-center p-4 rounded-xl bg-neutral-50">
                       <div className="flex items-center space-x-4">
-                        <div className="flex justify-center items-center w-12 h-16 bg-gradient-to-br rounded-lg from-neutral-200 to-neutral-300">
-                          <HiBookOpen className="w-6 h-6 text-neutral-500" />
-                        </div>
+                      {item.book?.bookImage ? (
+                                <img
+                                src={book.bookImage}
+                                  alt={item.book.name}
+                                  className="object-cover w-6 h-6"
+                                />
+                              ) : (
+                                <div className="flex justify-center items-center w-full h-full">
+                                  <HiBookOpen className="w-6 h-6 text-neutral-400" />
+                                </div>
+                              )}
                         <div>
                           <h3 className="font-gilroyBold text-neutral-900">{item.book?.name}</h3>
                           <p className="text-sm text-neutral-600 font-gilroyMedium">Quantity: {item.quantity}</p>

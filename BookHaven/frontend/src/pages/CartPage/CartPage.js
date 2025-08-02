@@ -253,7 +253,7 @@ const CartPage = () => {
                             <div className="overflow-hidden w-20 h-28 bg-gradient-to-br rounded-lg shadow-md from-neutral-100 to-neutral-200">
                               {item.book?.bookImage ? (
                                 <img
-                                  src={`${process.env.REACT_APP_BACKEND_URL}/uploads/${item.book.bookImage}`}
+                                src={book.bookImage}
                                   alt={item.book.name}
                                   className="object-cover w-full h-full"
                                 />
