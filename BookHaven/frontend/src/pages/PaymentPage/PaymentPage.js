@@ -210,7 +210,7 @@ const PaymentPage = () => {
                       <div className="flex items-center space-x-4">
                       {item.book?.bookImage ? (
                                 <img
-                                src={book.bookImage}
+                                src={item.book.bookImage}
                                   alt={item.book.name}
                                   className="object-cover w-6 h-6"
                                 />
