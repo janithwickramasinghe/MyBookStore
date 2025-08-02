@@ -1,25 +1,25 @@
 
 import './App.css';
 import React from 'react';
-// import HomePage from './Pages/HomePage/HomePage'
+import HomePage from './pages/HomePage/HomePage'
 import { Routes, Route, Router } from "react-router"
 import Login from './Components/Login/Login';
 import AddBook from './Components/AddBook/AddBook';
 import ViewBooks from './Components/ViewBooks/ViewBooks';
 import Register from './Components/Register/Register';
 import OTPVerification from './Components/OTPVerification';
-import BookPage from './Pages/BookPage/BookPage';
+import BookPage from './pages/BookPage/BookPage';
 import CartPage from './pages/CartPage/CartPage';
 
 import PaymentPage from './pages/PaymentPage/PaymentPage';
 import PrivateRoute from './Components/PrivateRoutes/PrivateRoutes';
-import OrdersPage from './Pages/OrdersPage/OrdersPage';
-import AdminOrdersDashboard from './Pages/AdminOrdersDashboard/AdminOrdersDashboard';
-import UserProfile from './Pages/UserProfile/UserProfile';
+import OrdersPage from './pages/OrdersPage/OrdersPage';
+import AdminOrdersDashboard from './pages/AdminOrdersDashboard/AdminOrdersDashboard';
+import UserProfile from './pages/UserProfile/UserProfile';
 import AdminRoute from './Components/PrivateRoutes/AdminRoutes';
-import AdminDashboard from './Pages/AdminDashboard/AdminDashboard';
-import ForgotPassword from './Pages/ForgotPassword/ForgotPassword';
-import ResetPassword from './Pages/ResetPassword/ResetPassword';
+import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
+import ResetPassword from './pages/ResetPassword/ResetPassword';
 
 function App() {
 
@@ -32,7 +32,7 @@ function App() {
         <Route path="/admin-orders" element={<AdminRoute><AdminOrdersDashboard /></AdminRoute>} />a
         <Route path="/register" element={<Register />} />
         <Route path="/verify-otp" element={<OTPVerification />} />
-        {/* <Route path="/home" element={<HomePage />} /> */}
+        <Route path="/home" element={<HomePage />} /> 
         <Route path="/book/:id" element={<BookPage />} />
         <Route path="/cart" element={
           <PrivateRoute><CartPage /></PrivateRoute>} />
