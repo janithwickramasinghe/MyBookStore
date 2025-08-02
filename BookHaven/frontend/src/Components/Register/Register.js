@@ -17,6 +17,7 @@ const Register = () => {
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [step, setStep] = useState(1);
+  const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
 
@@ -45,12 +46,50 @@ const Register = () => {
   };
 
   const nextStep = () => {
-    setStep(step + 1);
+    if (validateStep()) {
+      setStep(step + 1);
+    }
   };
 
   const prevStep = () => {
     setStep(step - 1);
   };
+
+  const handleBlur = (e) => {
+    validateField(e.target.name);
+  }
+
+  const validateStep = (stepToValidate = step) => {
+    const newErrors = {};
+
+    if (stepToValidate === 1) {
+      if (!form.firstName.trim()) newErrors.firstName = 'First name is required';
+      if (!form.lastName.trim()) newErrors.lastName = 'Last name is required';
+      if (!form.dob) newErrors.dob = 'Date of birth is required';
+    }
+
+    if (stepToValidate === 2) {
+      if (!form.email.trim()) newErrors.email = 'Email is required';
+      else if (!/\S+@\S+\.\S+/.test(form.email)) newErrors.email = 'Email is invalid';
+
+      if (!form.phone.trim()) newErrors.phone = 'Phone number is required';
+      else if (!/^\d{10}$/.test(form.phone)) newErrors.phone = 'Phone number must be 10 digits';
+
+      if (!form.address.trim()) newErrors.address = 'Address is required';
+    }
+
+    if (stepToValidate === 3) {
+      if (!form.password.trim()) newErrors.password = 'Password is required';
+      else if (form.password.length < 8) newErrors.password = 'Password must be at least 8 characters';
+      else if (!/[A-Z]/.test(form.password)) newErrors.password = 'Include at least one uppercase letter';
+      else if (!/[0-9]/.test(form.password)) newErrors.password = 'Include at least one number';
+      else if (!/[^A-Za-z0-9]/.test(form.password)) newErrors.password = 'Include at least one special character';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
 
   const renderFormStep = () => {
     switch (step) {
@@ -75,6 +114,9 @@ const Register = () => {
                   required
                   className="px-4 py-3 pl-12 w-full rounded-xl border transition-all duration-300 bg-neutral-50 border-neutral-200 font-gilroyRegular text-neutral-900 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent group-hover:border-primary-300"
                 />
+                {errors.firstName && (
+                  <p className="mt-1 text-sm text-red-500 font-gilroyRegular">{errors.firstName}</p>
+                )}
                 <svg className="absolute left-4 top-1/2 w-5 h-5 transition-colors transform -translate-y-1/2 text-neutral-400 group-focus-within:text-primary-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
@@ -94,6 +136,9 @@ const Register = () => {
                   required
                   className="px-4 py-3 pl-12 w-full rounded-xl border transition-all duration-300 bg-neutral-50 border-neutral-200 font-gilroyRegular text-neutral-900 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent group-hover:border-primary-300"
                 />
+                {errors.lastName && (
+                  <p className="mt-1 text-sm text-red-500 font-gilroyRegular">{errors.lastName}</p>
+                )}
                 <svg className="absolute left-4 top-1/2 w-5 h-5 transition-colors transform -translate-y-1/2 text-neutral-400 group-focus-within:text-primary-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
@@ -112,6 +157,9 @@ const Register = () => {
                   required
                   className="px-4 py-3 pl-12 w-full rounded-xl border transition-all duration-300 bg-neutral-50 border-neutral-200 font-gilroyRegular text-neutral-900 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent group-hover:border-primary-300"
                 />
+                {errors.dob && (
+                  <p className="mt-1 text-sm text-red-500 font-gilroyRegular">{errors.dob}</p>
+                )}
                 <svg className="absolute left-4 top-1/2 w-5 h-5 transition-colors transform -translate-y-1/2 text-neutral-400 group-focus-within:text-primary-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
@@ -150,6 +198,9 @@ const Register = () => {
                   required
                   className="px-4 py-3 pl-12 w-full rounded-xl border transition-all duration-300 bg-neutral-50 border-neutral-200 font-gilroyRegular text-neutral-900 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent group-hover:border-primary-300"
                 />
+                {errors.email && (
+                  <p className="mt-1 text-sm text-red-500 font-gilroyRegular">{errors.email}</p>
+                )}
                 <svg className="absolute left-4 top-1/2 w-5 h-5 transition-colors transform -translate-y-1/2 text-neutral-400 group-focus-within:text-primary-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                 </svg>
@@ -169,6 +220,9 @@ const Register = () => {
                   required
                   className="px-4 py-3 pl-12 w-full rounded-xl border transition-all duration-300 bg-neutral-50 border-neutral-200 font-gilroyRegular text-neutral-900 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent group-hover:border-primary-300"
                 />
+                {errors.phone && (
+                  <p className="mt-1 text-sm text-red-500 font-gilroyRegular">{errors.phone}</p>
+                )}
                 <svg className="absolute left-4 top-1/2 w-5 h-5 transition-colors transform -translate-y-1/2 text-neutral-400 group-focus-within:text-primary-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
@@ -188,6 +242,9 @@ const Register = () => {
                   rows="3"
                   className="px-4 py-3 pl-12 w-full rounded-xl border transition-all duration-300 resize-none bg-neutral-50 border-neutral-200 font-gilroyRegular text-neutral-900 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent group-hover:border-primary-300"
                 />
+                {errors.address && (
+                  <p className="mt-1 text-sm text-red-500 font-gilroyRegular">{errors.address}</p>
+                )}
                 <svg className="absolute top-4 left-4 w-5 h-5 transition-colors text-neutral-400 group-focus-within:text-primary-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -236,6 +293,9 @@ const Register = () => {
                   required
                   className="px-4 py-3 pr-12 pl-12 w-full rounded-xl border transition-all duration-300 bg-neutral-50 border-neutral-200 font-gilroyRegular text-neutral-900 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent group-hover:border-primary-300"
                 />
+                {errors.password && (
+                  <p className="mt-1 text-sm text-red-500 font-gilroyRegular">{errors.password}</p>
+                )}
                 <svg className="absolute left-4 top-1/2 w-5 h-5 transition-colors transform -translate-y-1/2 text-neutral-400 group-focus-within:text-primary-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
@@ -343,7 +403,7 @@ const Register = () => {
             </div>
             <h1 className="mb-2 text-3xl font-gilroyHeavy text-neutral-900">Join BookHaven</h1>
             <p className="text-neutral-600 font-gilroyRegular">Create your account to start reading</p>
-            
+
             {/* Progress Indicator */}
             <div className="mt-6">
               <div className="flex justify-center items-center space-x-2">
@@ -353,19 +413,17 @@ const Register = () => {
                     className={`flex items-center ${stepNumber < 3 ? 'flex-1' : ''}`}
                   >
                     <div
-                      className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-gilroyBold transition-colors duration-300 ${
-                        step >= stepNumber
-                          ? 'bg-primary-500 text-white'
-                          : 'bg-neutral-200 text-neutral-500'
-                      }`}
+                      className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-gilroyBold transition-colors duration-300 ${step >= stepNumber
+                        ? 'bg-primary-500 text-white'
+                        : 'bg-neutral-200 text-neutral-500'
+                        }`}
                     >
                       {stepNumber}
                     </div>
                     {stepNumber < 3 && (
                       <div
-                        className={`flex-1 h-1 mx-2 rounded transition-colors duration-300 ${
-                          step > stepNumber ? 'bg-primary-500' : 'bg-neutral-200'
-                        }`}
+                        className={`flex-1 h-1 mx-2 rounded transition-colors duration-300 ${step > stepNumber ? 'bg-primary-500' : 'bg-neutral-200'
+                          }`}
                       />
                     )}
                   </div>
@@ -395,8 +453,8 @@ const Register = () => {
           <div className="mt-8 text-center">
             <p className="text-neutral-600 font-gilroyRegular">
               Already have an account?{' '}
-              <Link 
-                to="/login" 
+              <Link
+                to="/login"
                 className="transition-colors font-gilroyBold text-primary-600 hover:text-primary-700"
               >
                 Sign in here
