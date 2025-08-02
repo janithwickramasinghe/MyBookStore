@@ -15,8 +15,9 @@ const addBook = async (req, res, next) => {
     }
     let bookImage = null;
     if (req.file) {
-        console.log('File info:', req.file); // ✅ debug line
         bookImage = req.file.path || req.file.secure_url || req.file.url || null;
+    } else if (req.body.bookImage) {
+        bookImage = req.body.bookImage;
     }
     try {
         const book = new Book({ name, price, quantity, language, author, publisher, isbn, isbn13, category, description, bookImage });
