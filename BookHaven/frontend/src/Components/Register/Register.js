@@ -56,7 +56,7 @@ const Register = () => {
   };
 
   const handleBlur = (e) => {
-    validateField(e.target.name);
+    validateStep(step);
   }
 
   const validateStep = (stepToValidate = step) => {
@@ -111,6 +111,7 @@ const Register = () => {
                   placeholder="Enter your first name"
                   value={form.firstName}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   required
                   className="px-4 py-3 pl-12 w-full rounded-xl border transition-all duration-300 bg-neutral-50 border-neutral-200 font-gilroyRegular text-neutral-900 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent group-hover:border-primary-300"
                 />
@@ -133,6 +134,7 @@ const Register = () => {
                   placeholder="Enter your last name"
                   value={form.lastName}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   required
                   className="px-4 py-3 pl-12 w-full rounded-xl border transition-all duration-300 bg-neutral-50 border-neutral-200 font-gilroyRegular text-neutral-900 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent group-hover:border-primary-300"
                 />
@@ -154,6 +156,7 @@ const Register = () => {
                   name="dob"
                   value={form.dob}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   required
                   className="px-4 py-3 pl-12 w-full rounded-xl border transition-all duration-300 bg-neutral-50 border-neutral-200 font-gilroyRegular text-neutral-900 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent group-hover:border-primary-300"
                 />
@@ -195,6 +198,7 @@ const Register = () => {
                   placeholder="Enter your email"
                   value={form.email}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   required
                   className="px-4 py-3 pl-12 w-full rounded-xl border transition-all duration-300 bg-neutral-50 border-neutral-200 font-gilroyRegular text-neutral-900 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent group-hover:border-primary-300"
                 />
@@ -217,6 +221,7 @@ const Register = () => {
                   placeholder="Enter your phone number"
                   value={form.phone}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   required
                   className="px-4 py-3 pl-12 w-full rounded-xl border transition-all duration-300 bg-neutral-50 border-neutral-200 font-gilroyRegular text-neutral-900 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent group-hover:border-primary-300"
                 />
@@ -238,6 +243,7 @@ const Register = () => {
                   placeholder="Enter your full address"
                   value={form.address}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   required
                   rows="3"
                   className="px-4 py-3 pl-12 w-full rounded-xl border transition-all duration-300 resize-none bg-neutral-50 border-neutral-200 font-gilroyRegular text-neutral-900 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent group-hover:border-primary-300"
@@ -290,6 +296,7 @@ const Register = () => {
                   placeholder="Create a strong password"
                   value={form.password}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   required
                   className="px-4 py-3 pr-12 pl-12 w-full rounded-xl border transition-all duration-300 bg-neutral-50 border-neutral-200 font-gilroyRegular text-neutral-900 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent group-hover:border-primary-300"
                 />
