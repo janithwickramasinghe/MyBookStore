@@ -252,7 +252,7 @@ const CartPage = () => {
                             <div className="overflow-hidden w-20 h-28 bg-gradient-to-br rounded-lg shadow-md from-neutral-100 to-neutral-200">
                               {item.book?.bookImage ? (
                                 <img
-                                  src={`http://localhost:5000/uploads/${item.book.bookImage}`}
+                                  src={`http://backend:5000/uploads/${item.book.bookImage}`}
                                   alt={item.book.name}
                                   className="object-cover w-full h-full"
                                 />

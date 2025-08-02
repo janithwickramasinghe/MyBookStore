@@ -325,7 +325,7 @@ return (
                     <div className="flex-shrink-0">
                       {book.bookImage ? (
                         <img 
-                          src={`http://localhost:5000/uploads/${book.bookImage}`} 
+                          src={`http://backend:5000/uploads/${book.bookImage}`} 
                           alt={book.name}
                           className="object-cover w-16 h-20 rounded-lg"
                         />

@@ -18,7 +18,7 @@ const BookCard = ({ book }) => {
       <div className="overflow-hidden relative">
         {book.bookImage ? (
           <img 
-            src={`http://localhost:5000/uploads/${book.bookImage}`} 
+            src={`http://backend:5000/uploads/${book.bookImage}`} 
             alt={book.name} 
             className="object-cover w-full h-64 transition-transform duration-500 group-hover:scale-110"
           />

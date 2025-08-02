@@ -155,7 +155,7 @@ const BookPage = () => {
                 <div className="aspect-[3/4] bg-gradient-to-br from-neutral-100 to-neutral-200 rounded-2xl overflow-hidden shadow-lg">
                   {book.bookImage ? (
                     <img
-                      src={`http://localhost:5000/uploads/${book.bookImage}`}
+                      src={`http://backend:5000/uploads/${book.bookImage}`}
                       alt={book.name}
                       className="object-cover w-full h-full"
                     />
