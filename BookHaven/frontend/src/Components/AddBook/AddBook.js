@@ -57,11 +57,11 @@ const AddBook = () => {
         break;
       case 'isbn':
         if (!value.trim()) error = 'ISBN is required.';
-        else if (!/^\d{5}$/.test(value)) error = 'ISBN must be 5 digits.';
+        else if (!/^\d{10}$/.test(value)) error = 'ISBN must be 10 digits.';
         break;
       case 'isbn13':
         if (!value.trim()) error = 'ISBN-13 is required.';
-        else if (!/^\d{5}$/.test(value)) error = 'ISBN-13 must be 5 digits.';
+        else if (!/^\d{13}$/.test(value)) error = 'ISBN-13 must be 13 digits.';
         break;
       case 'category':
         if (!value.trim()) error = 'Category is required.';
