@@ -1,25 +1,25 @@
 
 import './App.css';
 import React from 'react';
-import HomePage from './pages/HomePage/HomePage'
+import HomePage from './Pages/HomePage/HomePage'
 import { Routes, Route, Router } from "react-router"
 import Login from './Components/Login/Login';
 import AddBook from './Components/AddBook/AddBook';
 import ViewBooks from './Components/ViewBooks/ViewBooks';
 import Register from './Components/Register/Register';
 import OTPVerification from './Components/OTPVerification';
-import BookPage from './pages/BookPage/BookPage';
-import CartPage from './pages/CartPage/CartPage';
+import BookPage from './Pages/BookPage/BookPage';
+import CartPage from './Pages/CartPage/CartPage';
 
-import PaymentPage from './pages/PaymentPage/PaymentPage';
+import PaymentPage from './Pages/PaymentPage/PaymentPage';
 import PrivateRoute from './Components/PrivateRoutes/PrivateRoutes';
-import OrdersPage from './pages/OrdersPage/OrdersPage';
-import AdminOrdersDashboard from './pages/AdminOrdersDashboard/AdminOrdersDashboard';
-import UserProfile from './pages/UserProfile/UserProfile';
+import OrdersPage from './Pages/OrdersPage/OrderPage';
+import AdminOrdersDashboard from './Pages/AdminOrdersDashboard/AdminOrdersDashboard';
+import UserProfile from './Pages/UserProfile/UserProfile';
 import AdminRoute from './Components/PrivateRoutes/AdminRoutes';
-import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
-import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
-import ResetPassword from './pages/ResetPassword/ResetPassword';
+import AdminDashboard from './Pages/AdminDashboard/AdminDashboard';
+import ForgotPassword from './Pages/ForgotPassword/ForgotPassword';
+import ResetPassword from './Pages/ResetPassword/ResetPassword';
 
 function App() {
 
