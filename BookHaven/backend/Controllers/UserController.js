@@ -202,7 +202,7 @@ const loginUser = async (req, res, next) => {
         // Generate JWT token
         const token = jwt.sign(
             {
-                id: user._id, 
+                id: user._id,
                 firstName: user.firstName,
                 role: user.role,
                 email: user.email,
@@ -226,6 +226,49 @@ const loginUser = async (req, res, next) => {
         console.error('Login error:', err);
         return res.status(500).json({ message: 'Server error during login' });
     }
+
+    // Generate tokens
+    const accessToken = jwt.sign(
+        {
+            id: user._id,
+            firstName: user.firstName,
+            role: user.role,
+            email: user.email,
+        },
+        JWT_SECRET,
+        { expiresIn: '15m' } // shorter expiration
+    );
+
+    const refreshToken = jwt.sign(
+        { id: user._id },
+        process.env.JWT_REFRESH_SECRET,
+        { expiresIn: '7d' }
+    );
+
+    // Save refresh token in DB
+    user.refreshToken = refreshToken;
+    await user.save();
+
+    // Send accessToken in response, optionally send refreshToken as HttpOnly cookie
+    res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    });
+
+    return res.status(200).json({
+        message: 'Login successful',
+        accessToken,
+        user: {
+            id: user._id,
+            email: user.email,
+            role: user.role,
+            firstName: user.firstName,
+            lastName: user.lastName
+        }
+    });
+
 };
 
 const findUserByEmail = async (email) => {
@@ -284,6 +327,37 @@ const loginAdmin = async (req, res, next) => {
     }
 };
 
+const refreshAccessToken = async (req, res) => {
+    const refreshToken = req.cookies.refreshToken || req.body.refreshToken;
+
+    if (!refreshToken) return res.status(401).json({ message: 'Missing refresh token' });
+
+    try {
+        const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+        const user = await User.findById(decoded.id);
+
+        if (!user || user.refreshToken !== refreshToken) {
+            return res.status(403).json({ message: 'Invalid refresh token' });
+        }
+
+        const newAccessToken = jwt.sign(
+            {
+                id: user._id,
+                firstName: user.firstName,
+                role: user.role,
+                email: user.email
+            },
+            JWT_SECRET,
+            { expiresIn: '15m' }
+        );
+
+        return res.status(200).json({ accessToken: newAccessToken });
+    } catch (err) {
+        return res.status(403).json({ message: 'Refresh token expired or invalid' });
+    }
+};
+
+
 
 
 module.exports = {
@@ -295,5 +369,6 @@ module.exports = {
     verifyEmail,
     loginUser,
     findUserByEmail,
-    loginAdmin
+    loginAdmin,
+    refreshAccessToken
 };
