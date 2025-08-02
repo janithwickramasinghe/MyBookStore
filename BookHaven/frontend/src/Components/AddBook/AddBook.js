@@ -32,6 +32,7 @@ const AddBook = () => {
   });
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -47,35 +48,39 @@ const AddBook = () => {
     setLoading(true);
     setMessage('');
 
+    if (!validateForm()) {
+      setLoading(false);
+      return;
+    }
+
     try {
       let imageUrl = '';
 
-      // 1. Upload image if selected
       if (form.bookImage) {
         const formData = new FormData();
-        formData.append('bookImage', form.bookImage); // use the field name your backend expects
+        formData.append('bookImage', form.bookImage);
 
         const uploadRes = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/upload`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
-        imageUrl = uploadRes.data.url; // Cloudinary URL returned from backend
+
+        imageUrl = uploadRes.data.url;
       }
 
-      // 2. Prepare book data with image URL
       const bookData = {
         ...form,
-        bookImage: imageUrl, // overwrite the file object with URL string
+        bookImage: imageUrl,
       };
 
-      // 3. Send book data to your backend API to save the book info
       await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/books/add`, bookData);
 
       setMessage('Book added successfully!');
       setForm({
         name: '', price: '', quantity: '', language: '', author: '', publisher: '', isbn: '', isbn13: '', category: '', bookImage: null, description: ''
       });
+      setErrors({});
     } catch (error) {
       console.error(error);
       setMessage('Failed to add book. Please try again.');
@@ -83,6 +88,7 @@ const AddBook = () => {
       setLoading(false);
     }
   };
+
 
   const inputFields = [
     { name: 'name', placeholder: 'Book Name', icon: HiBookOpen, type: 'text' },
@@ -95,6 +101,30 @@ const AddBook = () => {
     { name: 'isbn13', placeholder: 'ISBN-13', icon: HiIdentification, type: 'text' },
     { name: 'category', placeholder: 'Category/Genre', icon: HiTag, type: 'text' }
   ];
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!form.name.trim()) newErrors.name = 'Book name is required.';
+    if (!form.price || form.price <= 0) newErrors.price = 'Enter a valid price.';
+    if (!form.quantity || form.quantity < 0) newErrors.quantity = 'Quantity must be 0 or more.';
+    if (!form.language.trim()) newErrors.language = 'Language is required.';
+    if (!form.author.trim()) newErrors.author = 'Author name is required.';
+    if (!form.publisher.trim()) newErrors.publisher = 'Publisher is required.';
+    if (!form.isbn.trim()) newErrors.isbn = 'ISBN is required.';
+    if (!form.isbn13.trim()) newErrors.isbn13 = 'ISBN-13 is required.';
+    if (!form.category.trim()) newErrors.category = 'Category is required.';
+    if (!form.description.trim()) newErrors.description = 'Description is required.';
+    if (!form.bookImage) newErrors.bookImage = 'Book cover image is required.';
+
+    // Simple ISBN format check (optional)
+    if (form.isbn && !/^\d{5}$/.test(form.isbn)) newErrors.isbn = 'ISBN must be 5 digits.';
+    if (form.isbn13 && !/^\d{5}$/.test(form.isbn13)) newErrors.isbn13 = 'ISBN-13 must be 5 digits.';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
 
   return (
     <div className="py-8 min-h-screen bg-gradient-to-br from-neutral-50 to-primary-50/30">
@@ -113,8 +143,8 @@ const AddBook = () => {
         {/* Error/Success Message */}
         {message && (
           <div className={`flex items-center p-4 mb-6 space-x-3 rounded-xl border ${message.includes('success')
-              ? 'bg-green-50 border-green-200'
-              : 'bg-red-50 border-red-200'
+            ? 'bg-green-50 border-green-200'
+            : 'bg-red-50 border-red-200'
             }`}>
             {message.includes('success') ? (
               <HiCheckCircle className="flex-shrink-0 w-5 h-5 text-green-600" />
@@ -168,6 +198,9 @@ const AddBook = () => {
                       required
                       className="px-4 py-3 w-full bg-white rounded-xl border transition-colors border-neutral-300 font-gilroyRegular focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     />
+                    {errors[field.name] && (
+                      <p className="text-sm text-red-600 font-gilroyMedium">{errors[field.name]}</p>
+                    )}
                   </div>
                 );
               })}
@@ -187,6 +220,9 @@ const AddBook = () => {
                   rows={4}
                   className="px-4 py-3 w-full bg-white rounded-xl border transition-colors resize-none border-neutral-300 font-gilroyRegular focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                 />
+                {errors.description && (
+                  <p className="text-sm text-red-600 font-gilroyMedium">{errors.description}</p>
+                )}
               </div>
 
               {/* Image Upload - Full Width */}
@@ -203,6 +239,9 @@ const AddBook = () => {
                     onChange={handleChange}
                     className="px-4 py-3 w-full bg-white rounded-xl border transition-colors border-neutral-300 font-gilroyRegular focus:ring-2 focus:ring-primary-500 focus:border-primary-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-gilroyMedium file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100"
                   />
+                  {errors.bookImage && (
+                    <p className="text-sm text-red-600 font-gilroyMedium">{errors.bookImage}</p>
+                  )}
                 </div>
                 {form.bookImage && (
                   <p className="text-sm text-primary-600 font-gilroyMedium">
