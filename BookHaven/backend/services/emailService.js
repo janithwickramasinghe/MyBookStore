@@ -209,10 +209,21 @@ const sendStockAlertEmail = async (book) => {
     await transporter.sendMail(mailOptions);
 };
 
+const sendEmail = async (to, subject, textOrHtml) => {
+    const mailOptions = {
+      from: `"BookStore" <${process.env.EMAIL_USER}>`,
+      to,
+      subject,
+      html: textOrHtml,
+    };
+    await transporter.sendMail(mailOptions);
+};
+
 
 module.exports = {
     sendVerificationEmail,
     sendInvoiceEmail,
     sendBookNotificationEmail,
-    sendStockAlertEmail
+    sendStockAlertEmail,
+    sendEmail
 };

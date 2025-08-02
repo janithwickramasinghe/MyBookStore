@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from '../api/axios';
+import { useLocation } from 'react-router-dom';
 import {
   HiShieldCheck,
   HiMail,
@@ -13,7 +14,8 @@ import {
 
 const OTPVerification = () => {
   // For demo purposes, simulating location state
-  const email = 'user@example.com'; // This would normally come from location.state?.email
+  const location = useLocation();
+  const email = location.state?.email || '';
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
@@ -24,12 +26,16 @@ const OTPVerification = () => {
     setLoading(true);
     setMessage('');
     setError('');
+  
     try {
-      const res = await axios.post('/users/verify-otp', { email, otp });
+      const res = await axios.post('/users/verify-otp', {
+        email,
+        otp
+      });
+  
       setMessage(res.data.message);
       setTimeout(() => {
-        // navigate('/'); // Redirect to login - would use navigate in real implementation
-        window.location.href = '/';
+        window.location.href = '/'; // Redirect to login
       }, 1500);
     } catch (err) {
       setError(
@@ -39,7 +45,8 @@ const OTPVerification = () => {
       setLoading(false);
     }
   };
-
+  
+  
   const handleResendOTP = async () => {
     try {
       setMessage('');
