@@ -15,7 +15,7 @@ const addBook = async (req, res, next) => {
     }
     let bookImage = null;
     if (req.file) {
-        bookImage = req.file.filename; // or req.file.path if you want the full path
+        bookImage = req.file.path; // or req.file.path if you want the full path
     }
     try {
         const book = new Book({ name, price, quantity, language, author, publisher, isbn, isbn13, category, description, bookImage });
