@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from '../../api/axios'
 import {
   HiBookOpen,
   HiCurrencyDollar,
@@ -45,20 +46,47 @@ const AddBook = () => {
     e.preventDefault();
     setLoading(true);
     setMessage('');
-  
-    // Simulate API call for demo
-    setTimeout(() => {
+
+    try {
+      let imageUrl = '';
+
+      // 1. Upload image if selected
+      if (form.bookImage) {
+        const formData = new FormData();
+        formData.append('bookImage', form.bookImage); // use the field name your backend expects
+
+        const uploadRes = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/upload`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        imageUrl = uploadRes.data.url; // Cloudinary URL returned from backend
+      }
+
+      // 2. Prepare book data with image URL
+      const bookData = {
+        ...form,
+        bookImage: imageUrl, // overwrite the file object with URL string
+      };
+
+      // 3. Send book data to your backend API to save the book info
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/books/add`, bookData);
+
       setMessage('Book added successfully!');
       setForm({
         name: '', price: '', quantity: '', language: '', author: '', publisher: '', isbn: '', isbn13: '', category: '', bookImage: null, description: ''
       });
+    } catch (error) {
+      console.error(error);
+      setMessage('Failed to add book. Please try again.');
+    } finally {
       setLoading(false);
-    }, 2000);
+    }
   };
 
   const inputFields = [
     { name: 'name', placeholder: 'Book Name', icon: HiBookOpen, type: 'text' },
-    { name: 'price', placeholder: 'Price (₹)', icon: HiCurrencyDollar, type: 'number' },
+    { name: 'price', placeholder: 'Price (Rs.)', icon: HiCurrencyDollar, type: 'number' },
     { name: 'quantity', placeholder: 'Quantity in Stock', icon: HiTag, type: 'number' },
     { name: 'language', placeholder: 'Language', icon: HiGlobeAlt, type: 'text' },
     { name: 'author', placeholder: 'Author Name', icon: HiUser, type: 'text' },
@@ -84,26 +112,23 @@ const AddBook = () => {
 
         {/* Error/Success Message */}
         {message && (
-          <div className={`flex items-center p-4 mb-6 space-x-3 rounded-xl border ${
-            message.includes('success') 
-              ? 'bg-green-50 border-green-200' 
+          <div className={`flex items-center p-4 mb-6 space-x-3 rounded-xl border ${message.includes('success')
+              ? 'bg-green-50 border-green-200'
               : 'bg-red-50 border-red-200'
-          }`}>
+            }`}>
             {message.includes('success') ? (
               <HiCheckCircle className="flex-shrink-0 w-5 h-5 text-green-600" />
             ) : (
               <HiExclamationCircle className="flex-shrink-0 w-5 h-5 text-red-600" />
             )}
-            <span className={`font-gilroyMedium ${
-              message.includes('success') ? 'text-green-800' : 'text-red-800'
-            }`}>
+            <span className={`font-gilroyMedium ${message.includes('success') ? 'text-green-800' : 'text-red-800'
+              }`}>
               {message}
             </span>
             <button
               onClick={() => setMessage('')}
-              className={`ml-auto ${
-                message.includes('success') ? 'text-green-600 hover:text-green-700' : 'text-red-600 hover:text-red-700'
-              }`}
+              className={`ml-auto ${message.includes('success') ? 'text-green-600 hover:text-green-700' : 'text-red-600 hover:text-red-700'
+                }`}
             >
               <HiX className="w-4 h-4" />
             </button>

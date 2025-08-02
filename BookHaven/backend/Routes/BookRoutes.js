@@ -4,9 +4,9 @@ const { addBook, getAllBooks, getBookById, updateBook, deleteBook, getNewArrival
 const { getFrequentlyBoughtBooks } = require('../Controllers/OrderController');
 const { authenticateUser } = require('../middleware/auth');
 const isAdmin = require('../middleware/isAdmin');
-
 const multer = require('multer');
 const path = require('path');
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, path.join(__dirname, '../uploads/'));

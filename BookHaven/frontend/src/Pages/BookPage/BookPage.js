@@ -32,6 +32,7 @@ const BookPage = () => {
   const [adding, setAdding] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const navigate = useNavigate();
+  const API_BASE = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchBook = async () => {
@@ -48,6 +49,7 @@ const BookPage = () => {
     };
     if (id) fetchBook();
   }, [id]);
+  
 
   const handleAddToCart = async () => {
     setAdding(true);
@@ -78,6 +80,7 @@ const BookPage = () => {
   const handleWishlist = () => {
     setIsWishlisted(!isWishlisted);
   };
+  
 
   if (loading) {
     return (
@@ -155,7 +158,7 @@ const BookPage = () => {
                 <div className="aspect-[3/4] bg-gradient-to-br from-neutral-100 to-neutral-200 rounded-2xl overflow-hidden shadow-lg">
                   {book.bookImage ? (
                     <img
-                      src={`http://backend:5000/uploads/${book.bookImage}`}
+                    src={book.bookImage}
                       alt={book.name}
                       className="object-cover w-full h-full"
                     />

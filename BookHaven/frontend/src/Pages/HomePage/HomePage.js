@@ -7,9 +7,11 @@ import useScrollToHash from '../../Hooks/userScrollerToHash';
 const BookCard = ({ book }) => {
   const [showDetails, setShowDetails] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  console.log("Backend URL:", process.env.REACT_APP_BACKEND_URL);
+
 
   return (
-    <div 
+    <div
       className="overflow-hidden relative bg-white rounded-2xl border shadow-lg transition-all duration-300 transform group hover:shadow-2xl border-neutral-100 hover:border-primary-200 hover:-translate-y-2"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -17,9 +19,9 @@ const BookCard = ({ book }) => {
       {/* Book Image */}
       <div className="overflow-hidden relative">
         {book.bookImage ? (
-          <img 
-            src={`http://backend:5000/uploads/${book.bookImage}`} 
-            alt={book.name} 
+          <img
+            src={book.bookImage}
+            alt={book.name}
             className="object-cover w-full h-64 transition-transform duration-500 group-hover:scale-110"
           />
         ) : (
@@ -29,10 +31,10 @@ const BookCard = ({ book }) => {
             </svg>
           </div>
         )}
-        
+
         {/* Overlay on hover */}
         <div className={`absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
-          <Link 
+          <Link
             to={`/book/${book._id}`}
             className="px-6 py-2 text-sm bg-white rounded-full transition-colors duration-200 transform text-neutral-900 font-gilroyBold hover:bg-primary-50 hover:scale-105"
           >
@@ -87,11 +89,11 @@ const BookCard = ({ book }) => {
           <span className="text-sm font-gilroyBold text-neutral-700 group-hover/btn:text-primary-600">
             {showDetails ? 'Hide Details' : 'Show Details'}
           </span>
-          <svg 
-            className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${showDetails ? 'rotate-180' : ''}`} 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
+          <svg
+            className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${showDetails ? 'rotate-180' : ''}`}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
             viewBox="0 0 24 24"
           >
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -152,22 +154,22 @@ const HomePage = () => {
 
       // Apply search filters
       if (search.name) {
-        filtered = filtered.filter(book => 
+        filtered = filtered.filter(book =>
           book.name.toLowerCase().includes(search.name.toLowerCase())
         );
       }
       if (search.author) {
-        filtered = filtered.filter(book => 
+        filtered = filtered.filter(book =>
           book.author.toLowerCase().includes(search.author.toLowerCase())
         );
       }
       if (search.publisher) {
-        filtered = filtered.filter(book => 
+        filtered = filtered.filter(book =>
           book.publisher.toLowerCase().includes(search.publisher.toLowerCase())
         );
       }
       if (search.isbn) {
-        filtered = filtered.filter(book => 
+        filtered = filtered.filter(book =>
           book.isbn.toLowerCase().includes(search.isbn.toLowerCase())
         );
       }
@@ -200,7 +202,7 @@ const HomePage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br via-white from-neutral-50 to-primary-50/30">
       <Header />
-      
+
       {/* Hero Section */}
       <div id="hero" className="overflow-hidden h-[600px] relative text-white bg-gradient-to-r from-primary-600 via-primary-700 to-secondary-600 mt-[-100px] pt-[100px]">
         <div className="absolute inset-0 bg-black/20"></div>
@@ -212,7 +214,7 @@ const HomePage = () => {
             <p className="mx-auto mb-8 max-w-2xl text-xl opacity-90 font-gilroyRegular">
               Discover your next favorite book from our curated collection of literary treasures
             </p>
-            
+
             {/* Search Toggle Button */}
             <button
               onClick={() => setShowFilters(!showFilters)}
@@ -228,7 +230,7 @@ const HomePage = () => {
             </button>
           </div>
         </div>
-        
+
         {/* Floating Elements */}
         <div className="absolute left-10 top-20 w-20 h-20 rounded-full blur-xl animate-pulse bg-white/10"></div>
         <div className="absolute right-10 bottom-20 w-32 h-32 rounded-full blur-2xl delay-1000 animate-pulse bg-secondary-400/20"></div>
@@ -249,7 +251,7 @@ const HomePage = () => {
                 </button>
               )}
             </div>
-            
+
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
               {/* Book Name */}
               <div className="relative group">
@@ -405,7 +407,7 @@ const HomePage = () => {
         </div>
 
         {/* New Arrivals Section */}
-        <div id="new-arrivals"className="mb-16">
+        <div id="new-arrivals" className="mb-16">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-gilroyHeavy text-neutral-900">New Arrivals</h2>
             <div className="flex-1 ml-8 h-1 bg-gradient-to-r rounded-full from-secondary-500 to-primary-500"></div>

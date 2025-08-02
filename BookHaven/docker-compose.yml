@@ -1,4 +1,5 @@
-version: '3'
+version: '3.8'
+
 services:
   backend:
     build: ./backend
@@ -6,24 +7,10 @@ services:
       - "5000:5000"
     environment:
       - NODE_ENV=development
+      - MONGO_URI=mongodb+srv://Admin:Bookstore1234@cluster0.ljmf1p3.mongodb.net/
     volumes:
       - ./backend:/app
-    depends_on:
-      - mongo
+      - /app/node_modules  # Prevents overwriting container node_modules with host
+    working_dir: /app
+    command: ["npx", "nodemon", "app.js"]
 
-  frontend:
-    build: ./frontend
-    ports:
-      - "3000:80"
-    depends_on:
-      - backend
-
-  mongo:
-    image: mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
-
-volumes:
-  mongo_data:

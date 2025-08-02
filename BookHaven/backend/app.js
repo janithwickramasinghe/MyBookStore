@@ -7,16 +7,21 @@ const paymentRoutes = require("./Routes/PaymentRoutes");
 const orderRoutes = require("./Routes/OrderRoutes");
 const cors = require('cors');
 const dotenv = require('dotenv')
+const uploadRoutes = require('./Routes/UploadRoutes');
 
 dotenv.config();
 
 const app = express();
 
-// Serve uploads folder as static
-app.use('/uploads', express.static('uploads'));
-
 // Middleware
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(cors({
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    credentials: true
+  }));
+  
+
+// Serve uploads folder as static
+app.use('/upload', uploadRoutes);
 app.use(express.json()); // To parse JSON bodies
 app.use("/api/users", router);
 app.use("/api/books", bookRoutes);
@@ -26,11 +31,16 @@ app.use("/api/orders", orderRoutes);
 
 
 //Database Connection
-mongoose.connect("mongodb+srv://Admin:Bookstore1234@cluster0.ljmf1p3.mongodb.net/")
-
-.then(() =>console.log("Connected to MongoDB"))
-.then(() => {
-    app.listen(5000);
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
 })
+    .then(() => console.log("Connected to MongoDB"))
+    .then(() => {
+        const PORT = process.env.PORT || 5000;
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+    })
 
-.catch((err) => console.log((err)))
+    .catch((err) => console.log((err)))

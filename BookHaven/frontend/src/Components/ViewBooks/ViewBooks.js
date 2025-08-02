@@ -23,6 +23,7 @@ HiCheckCircle
 } from 'react-icons/hi';
 
 const ViewBooks = () => {
+const API_BASE = process.env.REACT_APP_API_URL;
 const [books, setBooks] = useState([]);
 const [loading, setLoading] = useState(true);
 const [error, setError] = useState(null);
@@ -325,7 +326,7 @@ return (
                     <div className="flex-shrink-0">
                       {book.bookImage ? (
                         <img 
-                          src={`http://backend:5000/uploads/${book.bookImage}`} 
+                        src={book.bookImage}
                           alt={book.name}
                           className="object-cover w-16 h-20 rounded-lg"
                         />
@@ -348,7 +349,7 @@ return (
                         </div>
                         <div className="flex items-center space-x-1">
                           <HiCurrencyDollar className="w-4 h-4" />
-                          <span className="font-gilroyBold text-primary-600">₹{book.price}</span>
+                          <span className="font-gilroyBold text-primary-600">Rs.{book.price}</span>
                         </div>
                       </div>
                     </div>
