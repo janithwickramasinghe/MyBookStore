@@ -27,7 +27,7 @@ The application follows the **MERN stack** architecture and is inspired by moder
 
 - Node.js and npm installed
 - MongoDB instance (local or cloud)
-- `.env` file in both frontend and backend with necessary secrets (e.g., DB URI, PORT, JWT_SECRET)
+
 
 # Clone the Repository
 
