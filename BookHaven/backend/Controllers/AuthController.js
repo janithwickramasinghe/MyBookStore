@@ -57,6 +57,9 @@ const forgotPassword = async (req, res) => {
     user.resetPasswordExpires = Date.now() + 15 * 60 * 1000;
     await user.save();
 
+    console.log("EMAIL_USER is", process.env.EMAIL_USER ? "set" : "not set");
+    console.log("EMAIL_PASSWORD is", process.env.EMAIL_PASSWORD ? "set" : "not set");
+
     const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
     await sendEmail(email, 'Reset Your Password', `Click to reset your password: ${resetLink}`);
 
@@ -69,29 +72,29 @@ const forgotPassword = async (req, res) => {
 
 // ---------------------- Reset Password ----------------------
 const resetPassword = async (req, res) => {
-    const { token } = req.params;
-    const { newPassword } = req.body;
-  
-    try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      const user = await User.findById(decoded.id);
-  
-      if (!user) return res.status(404).json({ message: 'User not found' });
-  
-      // Hash the new password before saving
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
-      user.password = hashedPassword;
-  
-      user.resetPasswordToken = undefined;
-      user.resetPasswordExpires = undefined;
-      await user.save();
-  
-      res.status(200).json({ message: 'Password reset successful' });
-    } catch (err) {
-      console.error("Reset Password Error:", err);
-      res.status(400).json({ message: 'Invalid or expired token' });
-    }
-  };
+  const { token } = req.params;
+  const { newPassword } = req.body;
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id);
+
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    // Hash the new password before saving
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+
+    res.status(200).json({ message: 'Password reset successful' });
+  } catch (err) {
+    console.error("Reset Password Error:", err);
+    res.status(400).json({ message: 'Invalid or expired token' });
+  }
+};
 
 module.exports = {
   verifyOtp,

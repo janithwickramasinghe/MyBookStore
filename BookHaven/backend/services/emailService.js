@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendVerificationEmail = async (email, otp) => {
-    
+
     const mailOptions = {
         from: `"YourApp" <${process.env.EMAIL_USER}>`,
         to: email,
@@ -210,11 +210,13 @@ const sendStockAlertEmail = async (book) => {
 };
 
 const sendEmail = async (to, subject, textOrHtml) => {
+    console.log("EMAIL_USER is", process.env.EMAIL_USER ? "set" : "not set");
+    console.log("EMAIL_PASSWORD is", process.env.EMAIL_PASSWORD ? "set" : "not set");
     const mailOptions = {
-      from: `"BookStore" <${process.env.EMAIL_USER}>`,
-      to,
-      subject,
-      html: textOrHtml,
+        from: `"BookStore" <${process.env.EMAIL_USER}>`,
+        to,
+        subject,
+        html: textOrHtml,
     };
     await transporter.sendMail(mailOptions);
 };
