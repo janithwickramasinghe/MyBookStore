@@ -245,7 +245,7 @@ const AdminOrdersDashboard = () => {
                         <div className="flex items-center space-x-1">
                           <HiCurrencyDollar className="w-4 h-4" />
                           <span className="font-gilroyBold text-primary-600">
-                            ₹{order.totalAmount.toFixed(2)}
+                            Rs.{order.totalAmount.toFixed(2)}
                           </span>
                         </div>
                       </div>
