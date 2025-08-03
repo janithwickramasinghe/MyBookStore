@@ -1,0 +1,365 @@
+openapi: 3.0.0
+info:
+  title: Bookstore API
+  version: 1.0.0
+  description: API documentation for the Bookstore web application.
+
+servers:
+  - url: http://localhost:5000/api
+
+paths:
+  /books:
+    get:
+      summary: Get all books
+      responses:
+        '200':
+          description: List of books
+
+  /books/new-arrivals:
+    get:
+      summary: Get newly arrived books
+      responses:
+        '200':
+          description: List of new arrivals
+
+  /books/frequently-bought:
+    get:
+      summary: Get frequently bought books
+      responses:
+        '200':
+          description: List of frequently bought books
+
+  /books/{id}:
+    get:
+      summary: Get a book by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Book details
+    put:
+      summary: Update a book (admin only)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Updated book
+    delete:
+      summary: Delete a book (admin only)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Book deleted
+
+  /books/add:
+    post:
+      summary: Add a new book (admin only)
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                bookImage:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Book added
+
+  /cart/add:
+    post:
+      summary: Add item to cart
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Item added to cart
+
+  /cart/view:
+    get:
+      summary: View cart items
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Cart contents
+
+  /cart/remove-items:
+    delete:
+      summary: Remove items from cart
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Items removed
+
+  /cart/update-quantity:
+    put:
+      summary: Update quantity of cart items
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Quantity updated
+
+  /orders/create:
+    post:
+      summary: Create an order
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: Order created
+
+  /orders/all:
+    get:
+      summary: Get all orders for user
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of orders
+
+  /orders/{orderId}:
+    get:
+      summary: Get order details
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Order info
+    put:
+      summary: Update an order
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Order updated
+    patch:
+      summary: Update order status
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Status updated
+
+  /orders/{orderId}/cancel:
+    delete:
+      summary: Cancel an order
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Order canceled
+
+  /orders/stats/overview:
+    get:
+      summary: Get order statistics
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Stats
+
+  /orders/status/{status}:
+    get:
+      summary: Get orders by status
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: status
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Filtered orders
+
+  /orders/admin/all:
+    get:
+      summary: Get all orders (admin)
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: All orders
+
+  /payment/create:
+    post:
+      summary: Create a payment
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: Payment created
+
+  /payment/all:
+    get:
+      summary: Get all payments
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of payments
+
+  /payment/{paymentId}:
+    get:
+      summary: Get payment by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: paymentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Payment info
+    put:
+      summary: Update a payment
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Payment updated
+    delete:
+      summary: Delete a payment
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Payment deleted
+
+  /payment/process-cart:
+    post:
+      summary: Process cart payment
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Payment processed
+
+  /users:
+    get:
+      summary: Get all users
+      responses:
+        '200':
+          description: User list
+    post:
+      summary: Add a user
+      responses:
+        '201':
+          description: User added
+
+  /users/verify-email:
+    get:
+      summary: Verify user email
+      responses:
+        '200':
+          description: Email verified
+
+  /users/{id}:
+    get:
+      summary: Get user by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User details
+    put:
+      summary: Update a user
+      responses:
+        '200':
+          description: User updated
+    delete:
+      summary: Delete a user
+      responses:
+        '200':
+          description: User deleted
+
+  /users/login:
+    post:
+      summary: User login
+      responses:
+        '200':
+          description: Login success
+
+  /users/verify-otp:
+    post:
+      summary: Verify OTP
+      responses:
+        '200':
+          description: OTP verified
+
+  /users/admin/login:
+    post:
+      summary: Admin login
+      responses:
+        '200':
+          description: Admin login success
+
+  /users/forgot-password:
+    post:
+      summary: Forgot password
+      responses:
+        '200':
+          description: Email sent
+
+  /users/reset-password/{token}:
+    post:
+      summary: Reset password
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Password reset
+
+  /users/refresh-token:
+    post:
+      summary: Refresh JWT token
+      responses:
+        '200':
+          description: Token refreshed
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

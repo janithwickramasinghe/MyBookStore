@@ -6,12 +6,21 @@ const cartRoutes = require("./Routes/CartRoutes");
 const paymentRoutes = require("./Routes/PaymentRoutes");
 const orderRoutes = require("./Routes/OrderRoutes");
 const cors = require('cors');
-const dotenv = require('dotenv')
-const uploadRoutes = require('./Routes/UploadRoutes');
+const dotenv = require('dotenv');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./swagger.yaml');
+
 
 dotenv.config();
 
 const app = express();
+
+// Swagger setup
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// Serve uploads folder as static
+app.use('/uploads', express.static('uploads'));
 
 // Middleware
 const allowedOrigins = [
