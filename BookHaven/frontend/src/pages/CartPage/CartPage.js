@@ -28,6 +28,7 @@ const CartPage = () => {
   const [processing, setProcessing] = useState(false);
   const [success, setSuccess] = useState(null);
   const [cartItems, setCartItems] = useState([]);
+  const API_BASE = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -252,7 +253,7 @@ const CartPage = () => {
                             <div className="overflow-hidden w-20 h-28 bg-gradient-to-br rounded-lg shadow-md from-neutral-100 to-neutral-200">
                               {item.book?.bookImage ? (
                                 <img
-                                  src={`http://backend:5000/uploads/${item.book.bookImage}`}
+                                src={item.book.bookImage}
                                   alt={item.book.name}
                                   className="object-cover w-full h-full"
                                 />

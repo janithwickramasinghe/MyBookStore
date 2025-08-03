@@ -65,7 +65,7 @@ const ResetPassword = () => {
       setMessage('Password reset successful! Redirecting to login...');
       setTimeout(() => {
         // navigate('/login'); // Would use navigate in real implementation
-        window.location.href = '/login';
+        window.location.href = '/';
       }, 2000);
     } catch (err) {
       setError(

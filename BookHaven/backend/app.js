@@ -11,6 +11,7 @@ const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
 const swaggerDocument = YAML.load('./swagger.yaml');
 
+
 dotenv.config();
 
 const app = express();
@@ -22,7 +23,26 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/uploads', express.static('uploads'));
 
 // Middleware
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+const allowedOrigins = [
+    'https://my-book-store-brown.vercel.app',
+    process.env.FRONTEND_URL
+  ];
+  
+  app.use(cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like curl or Postman)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS: ' + origin));
+      }
+    },
+    credentials: true
+  }));
+  
+
+// Serve uploads folder as static
+app.use('/upload', uploadRoutes);
 app.use(express.json()); // To parse JSON bodies
 app.use("/api/users", router);
 app.use("/api/books", bookRoutes);
@@ -32,11 +52,16 @@ app.use("/api/orders", orderRoutes);
 
 
 //Database Connection
-mongoose.connect("mongodb+srv://Admin:Bookstore1234@cluster0.ljmf1p3.mongodb.net/")
-
-.then(() =>console.log("Connected to MongoDB"))
-.then(() => {
-    app.listen(5000);
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
 })
+    .then(() => console.log("Connected to MongoDB"))
+    .then(() => {
+        const PORT = process.env.PORT || 5000;
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+    })
 
-.catch((err) => console.log((err)))
+    .catch((err) => console.log((err)))

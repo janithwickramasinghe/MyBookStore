@@ -9,11 +9,10 @@ import ViewBooks from './Components/ViewBooks/ViewBooks';
 import Register from './Components/Register/Register';
 import OTPVerification from './Components/OTPVerification';
 import BookPage from './Pages/BookPage/BookPage';
-import CartPage from './Pages/CartPage/CartPage';
-
-import PaymentPage from './Pages/PaymentPage/PaymentPage';
+import CartPage from './pages/CartPage/CartPage';
+import PaymentPage from './pages/PaymentPage/PaymentPage';
 import PrivateRoute from './Components/PrivateRoutes/PrivateRoutes';
-import OrdersPage from './Pages/OrdersPage/OrderPage';
+import OrdersPage from './Pages/OrdersPage/OrdersPage';
 import AdminOrdersDashboard from './Pages/AdminOrdersDashboard/AdminOrdersDashboard';
 import UserProfile from './Pages/UserProfile/UserProfile';
 import AdminRoute from './Components/PrivateRoutes/AdminRoutes';

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://backend:5000/api/', // Replace with your backend URL
+  baseURL: `${process.env.REACT_APP_BACKEND_URL}/api/`, // Replace with your backend URL
   withCredentials: true, // If you're using sessions/cookies
 });
 

@@ -1,5 +1,5 @@
 const Book = require('../Model/BookModel');
-const {sendBookNotificationEmail} = require('../services/emailService')
+const { sendBookNotificationEmail } = require('../services/emailService')
 
 // Add a new book (admin only)
 const addBook = async (req, res, next) => {
@@ -15,7 +15,9 @@ const addBook = async (req, res, next) => {
     }
     let bookImage = null;
     if (req.file) {
-        bookImage = req.file.filename; // or req.file.path if you want the full path
+        bookImage = req.file.path || req.file.secure_url || req.file.url || null;
+    } else if (req.body.bookImage) {
+        bookImage = req.body.bookImage;
     }
     try {
         const book = new Book({ name, price, quantity, language, author, publisher, isbn, isbn13, category, description, bookImage });
