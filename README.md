@@ -1,6 +1,6 @@
-# 📚 Bookstore Web Application
+# Bookstore Web Application
 
-## 📌 Project Overview
+# Project Overview
 
 Welcome to the Bookstore Web Application — a dynamic, full-stack e-commerce platform designed to offer users a smooth book-browsing and purchasing experience. This platform enables users to browse a variety of books, manage a shopping cart, make secure payments, and track orders. Administrators can manage inventory, view orders, and handle product listings via an intuitive dashboard.
 
@@ -8,7 +8,7 @@ The application follows the **MERN stack** architecture and is inspired by moder
 
 ---
 
-## 🛠 Technologies Used
+# Technologies Used
 
 | Frontend      | Backend       | Database | Tools/Services                |
 |---------------|---------------|----------|-------------------------------|
@@ -21,16 +21,16 @@ The application follows the **MERN stack** architecture and is inspired by moder
 
 ---
 
-## ⚙️ Setup Instructions
+# Setup Instructions
 
-### 🔧 Prerequisites
+# Prerequisites
 
 - Node.js and npm installed
 - Docker & Docker Compose installed (for containerized setup)
 - MongoDB instance (local or cloud)
 - `.env` file in both frontend and backend with necessary secrets (e.g., DB URI, PORT, JWT_SECRET)
 
-### 🧱 Clone the Repository
+# Clone the Repository
 
 ```bash
 git clone https://github.com/janithwickramasinghe/MyBookStore.git
