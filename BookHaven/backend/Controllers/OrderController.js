@@ -269,6 +269,7 @@ class OrderController {
             const { orderId } = req.params;
             const { status } = req.body;
             const userId = req.user._id;
+            const isAdminUser = req.user.role === 'admin'; // or however your role system is set up
 
             const validStatuses = ['Pending', 'Confirmed', 'Shipped', 'Delivered', 'Cancelled'];
             if (!validStatuses.includes(status)) {
@@ -278,7 +279,10 @@ class OrderController {
                 });
             }
 
-            const order = await Order.findOne({ _id: orderId, user: userId });
+            const order = isAdminUser
+                ? await Order.findById(orderId) // Admins can update any order
+                : await Order.findOne({ _id: orderId, user: userId }); // Normal users can update only their orders
+
             if (!order) {
                 return res.status(404).json({
                     success: false,
@@ -302,6 +306,7 @@ class OrderController {
             });
         }
     }
+
 
     // Cancel order
     async cancelOrder(req, res) {
