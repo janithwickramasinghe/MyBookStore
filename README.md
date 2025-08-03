@@ -14,8 +14,8 @@ The application follows the **MERN stack** architecture and is inspired by moder
 |---------------|---------------|----------|-------------------------------|
 | React.js      | Node.js       | MongoDB  | Git & GitHub (Version Control)|
 | JSX/CSS       | Express.js    |          | Swagger UI (API Docs)         |
-| Axios         | JSDoc         |          | Vercel (Frontend Hosting)     |
-| React Router  | JWT Auth      |          | Render (Backend Hosting)      |
+| Axios         | JWT Auth      |          | Vercel (Frontend Hosting)     |
+| React Router  |               |          | Render (Backend Hosting)      |
 |               |               |          |                               |
 |               |               |          |                               |
 
@@ -26,7 +26,6 @@ The application follows the **MERN stack** architecture and is inspired by moder
 # Prerequisites
 
 - Node.js and npm installed
-- Docker & Docker Compose installed (for containerized setup)
 - MongoDB instance (local or cloud)
 - `.env` file in both frontend and backend with necessary secrets (e.g., DB URI, PORT, JWT_SECRET)
 
